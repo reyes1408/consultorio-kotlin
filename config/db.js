@@ -1,18 +1,16 @@
-// config/db.js
-import { Sequelize } from 'sequelize';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const db = new Sequelize(
-    process.env.DB_NAME, 
-    process.env.DB_USER, 
-    process.env.DB_PASSWORD, 
-    {
-        host: process.env.DB_HOST,
-        dialect: 'mysql',
-        logging: false
+export const connectDB = async () => {
+    try {
+    
+        const uri = process.env.MONGODB_URI;
+        await mongoose.connect(uri);
+        console.log("Conexión exitosa a MongoDB Atlas usando variables de entorno");
+    } catch (error) {
+        console.error("Error conectando a MongoDB:", error);
+        process.exit(1);
     }
-);
-
-export default db;
+};
